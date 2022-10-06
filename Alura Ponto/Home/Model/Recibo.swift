@@ -29,7 +29,7 @@ class Recibo: NSManagedObject {
 
 extension Recibo {
     
-    // MARK: Core Data - DAO
+    // MARK: - Core Data - DAO
     
     class func fetchRequest() -> NSFetchRequest<Recibo> {
         return NSFetchRequest(entityName: "Recibo")
@@ -53,6 +53,7 @@ extension Recibo {
     
     func deletar(_ contexto: NSManagedObjectContext) {
         contexto.delete(self)
+        
         do {
             try contexto.save()
         } catch {

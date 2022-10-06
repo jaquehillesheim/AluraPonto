@@ -20,7 +20,7 @@ class ReciboViewController: UIViewController {
     // MARK: - Atributos
     
     private lazy var camera = Camera()
-    private lazy var controladorDeImagem = UIImagePickerController()
+    private lazy var controladorDeImage = UIImagePickerController()
     
     var contexto: NSManagedObjectContext = {
         let contexto = UIApplication.shared.delegate as! AppDelegate
@@ -34,12 +34,10 @@ class ReciboViewController: UIViewController {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
         return NSFetchedResultsController(fetchRequest: fetchRequest,
                                           managedObjectContext: appDelegate.persistentContainer.viewContext,
                                           sectionNameKeyPath: nil,
                                           cacheName: nil)
-        
     }()
     
     // MARK: - View life cycle
@@ -49,10 +47,12 @@ class ReciboViewController: UIViewController {
         configuraTableView()
         configuraViewFoto()
         buscador.delegate = self
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         getRecibos()
+        getFotoDePerfil()
         reciboTableView.reloadData()
     }
     
@@ -61,6 +61,13 @@ class ReciboViewController: UIViewController {
     func getRecibos() {
         Recibo.carregar(buscador)
     }
+    
+    func getFotoDePerfil() {
+        if let imagemDePerfil = Perfil().carregarImagem() {
+            fotoPerfilImageView.image = imagemDePerfil
+        }
+    }
+    
     func configuraViewFoto() {
         escolhaFotoView.layer.borderWidth = 1
         escolhaFotoView.layer.borderColor = UIColor.systemGray2.cgColor
@@ -76,11 +83,10 @@ class ReciboViewController: UIViewController {
     
     func mostraMenuEscolhaDeFoto() {
         let menu = UIAlertController(title: "Seleção de foto", message: "Escolha uma foto da biblioteca", preferredStyle: .actionSheet)
-        menu.addAction(UIAlertAction(title: "Biblioteca de fotos", style: .default, handler: {
-            action in
+        menu.addAction(UIAlertAction(title: "Biblioteca de fotos", style: .default, handler: { action in
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 self.camera.delegate = self
-                self.camera.abrirBibliotecaFotos(self, self.controladorDeImagem)
+                self.camera.abrirBibliotecaFotos(self, self.controladorDeImage)
             }
         }))
         
@@ -92,7 +98,6 @@ class ReciboViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func escolherFotoButton(_ sender: UIButton) {
-        // TO DO: Abrir biblioteca de fotos
         mostraMenuEscolhaDeFoto()
     }
 }
@@ -131,19 +136,19 @@ extension ReciboViewController: ReciboTableViewCellDelegate {
 
 extension ReciboViewController: CameraDelegate {
     func didSelectFoto(_ image: UIImage) {
-        escolhaFotoButton.isHidden = true // esconter o inconi da foto pegando imagem da biblioteca
+        Perfil().salvarImagem(image)
+        escolhaFotoButton.isHidden = true
         fotoPerfilImageView.image = image
     }
 }
+
 extension ReciboViewController: NSFetchedResultsControllerDelegate {
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
         switch type {
         case .delete:
             if let indexPath = indexPath {
                 reciboTableView.deleteRows(at: [indexPath], with: .fade)
-                
             }
             break
         default:

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Alura Ponto necessita de acesso a biblioteca de imagem</string>
+	<string>Alura Ponto necessita de acesso a biblioteca de imagens</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Alura Ponto necessita de acesso a câmera para registar o ponto eletrônico</string>
+	<string>Alura Ponto necessita de acesso a câmera para registrar o ponto eletrônico</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

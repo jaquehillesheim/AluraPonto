@@ -28,7 +28,6 @@ class HomeViewController: UIViewController {
         return contexto.persistentContainer.viewContext
     }()
     
-    
     // MARK: - View life cycle
 
     override func viewDidLoad() {
@@ -74,6 +73,7 @@ class HomeViewController: UIViewController {
     
     func tentaAbrirCamera() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            camera.delegate = self
             camera.abrirCamera(self, controladorDeImagem)
         }
     }
@@ -81,7 +81,6 @@ class HomeViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func registrarButton(_ sender: UIButton) {
-        // TO DO: Abrir câmera
         tentaAbrirCamera()
     }
 }
