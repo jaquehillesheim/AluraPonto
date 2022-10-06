@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 
+
 class ReciboViewController: UIViewController {
     
     // MARK: - IBOutlet
@@ -47,7 +48,6 @@ class ReciboViewController: UIViewController {
         configuraTableView()
         configuraViewFoto()
         buscador.delegate = self
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -129,8 +129,15 @@ extension ReciboViewController: UITableViewDelegate {
 
 extension ReciboViewController: ReciboTableViewCellDelegate {
     func deletarRecibo(_ index: Int) {
-        guard let recibo = buscador.fetchedObjects?[index] else { return }
-        recibo.deletar(contexto)
+        
+        AutenticacaoLocal().autorizaUsuario { autentucao in
+            if autentucao {
+                // autenticacao para liberacao para remover o recibo de ponto
+                guard let recibo = self.buscador.fetchedObjects?[index] else { return }
+                recibo.deletar(self.contexto)
+                
+            }
+        }
     }
 }
 

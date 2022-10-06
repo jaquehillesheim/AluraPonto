@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>É necessario utilizar a autenticaçõ para ter acesso as configuracoes</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Alura Ponto necessita de acesso a biblioteca de imagens</string>
 	<key>NSCameraUsageDescription</key>

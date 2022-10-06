@@ -34,6 +34,8 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         configuraView()
         atualizaHorario()
+        
+        Perfil().carregarImagem()
     }
     
     override func viewDidAppear(_ animated: Bool) {
