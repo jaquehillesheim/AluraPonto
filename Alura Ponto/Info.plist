@@ -4,6 +4,19 @@
 <dict>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Registrar ponto</string>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeCompose</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>RegistrarPonto</string>
+		</dict>
+	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Precisamos de sua localização para registrar o ponto eletrônico</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>É necessario utilizar a autenticaçõ para ter acesso as configuracoes</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

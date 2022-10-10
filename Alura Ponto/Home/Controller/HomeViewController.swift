@@ -7,9 +7,14 @@
 
 import UIKit
 import CoreData
+import CoreLocation
+
 
 class HomeViewController: UIViewController {
-
+    
+//    typealias CLLocationDegrees = Double
+//    typealias CLLocationManager = Double
+  
     // MARK: - IBOutlets
 
     @IBOutlet weak var horarioView: UIView!
@@ -22,11 +27,20 @@ class HomeViewController: UIViewController {
     private lazy var camera = Camera()
     private lazy var controladorDeImagem = UIImagePickerController()
     
+    
+    
+    private var latitude: CLLocationDegrees?
+    private var longitude: CLLocationDegrees?
+    
     var contexto: NSManagedObjectContext = {
         let contexto = UIApplication.shared.delegate as! AppDelegate
         
         return contexto.persistentContainer.viewContext
     }()
+    
+    lazy var gerenciadorDeLocalizacao = CLLocationManager()
+    private lazy var localizacao = Localizacao()
+    
     
     // MARK: - View life cycle
 
@@ -34,8 +48,8 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         configuraView()
         atualizaHorario()
+        requisicaoDaLocalizacaoDoUsuario()
         
-        Perfil().carregarImagem()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -80,16 +94,31 @@ class HomeViewController: UIViewController {
         }
     }
     
+    func requisicaoDaLocalizacaoDoUsuario() {
+        localizacao.delegate = self
+        localizacao.permissao(gerenciadorDeLocalizacao)
+    }
+    
     // MARK: - IBActions
     
     @IBAction func registrarButton(_ sender: UIButton) {
         tentaAbrirCamera()
+        let controller = MapaViewController(nibName: "MapaViewController", bundle: nil)
+        present(controller, animated: true, completion: nil)
+        
     }
 }
 
 extension HomeViewController: CameraDelegate {
     func didSelectFoto(_ image: UIImage) {
-        let recibo = Recibo(status: false, data: Date(), foto: image)
+        let recibo = Recibo(status: false, data: Date(), foto: image, latitude: latitude ?? 0.0, longitude: longitude ?? 0.0)
         recibo.salvar(contexto)
+    }
+}
+
+extension HomeViewController: LocalizacaoDelegate {
+    func atualizaLocalizacaoDoUsuario(latitude: Double?, longitude: Double?) {
+        self.latitude = latitude ?? 0.0
+        self.longitude = longitude ?? 0.0
     }
 }

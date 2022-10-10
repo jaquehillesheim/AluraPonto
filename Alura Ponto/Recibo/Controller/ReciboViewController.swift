@@ -125,6 +125,15 @@ extension ReciboViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let recibo = buscador.fetchedObjects?[indexPath.row]
+        let mapaViewController = MapaViewController.instanciar(recibo)
+        mapaViewController.modalPresentationStyle = .automatic
+        
+        present(mapaViewController, animated: true, completion: nil)
+        
+    }
 }
 
 extension ReciboViewController: ReciboTableViewCellDelegate {
